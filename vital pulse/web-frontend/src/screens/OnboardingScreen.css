@@ -1,0 +1,45 @@
+.onboarding-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
+}
+
+.onboarding-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.onboarding-content h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 16px;
+}
+
+.onboarding-content p {
+  font-size: 18px;
+  color: #6C757D;
+  line-height: 26px;
+  margin-bottom: 32px;
+}
+
+.start-button {
+  padding: 20px 48px;
+  border-radius: 16px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: #D32F2F;
+  cursor: pointer;
+  min-height: 56px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:hover {
+  opacity: 0.9;
+}
+

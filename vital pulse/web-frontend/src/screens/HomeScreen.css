@@ -1,0 +1,214 @@
+.home-screen {
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+.home-content {
+  padding: 0;
+}
+
+.home-header {
+  padding: 20px 16px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.welcome-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  flex: 1;
+  margin: 0;
+}
+
+.region-indicator {
+  font-size: 12px;
+  color: #FFFFFF;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.blood-group-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-left: 8px;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.needs-card {
+  margin: 16px;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.needs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.needs-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.needs-count {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.emergencies-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.emergency-mini-card {
+  background-color: #FFFFFF;
+  padding: 12px;
+  border-radius: 12px;
+  min-width: 140px;
+  border-left: 4px solid;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.emergency-mini-card:hover {
+  transform: translateY(-2px);
+}
+
+.mini-blood-group {
+  font-size: 20px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 4px;
+}
+
+.mini-hospital {
+  font-size: 12px;
+  color: #6C757D;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mini-distance {
+  font-size: 11px;
+  color: #6C757D;
+}
+
+.no-needs {
+  font-size: 14px;
+  color: #FFFFFF;
+  opacity: 0.9;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.section {
+  margin-top: 8px;
+  padding: 0 16px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+
+.see-all {
+  font-size: 14px;
+  color: #2196F3;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hospitals-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.action-card {
+  padding: 20px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.action-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.loading-spinner {
+  font-size: 16px;
+  color: #6C757D;
+}
+

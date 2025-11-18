@@ -1,0 +1,104 @@
+.hospital-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+  min-width: 280px;
+}
+
+.hospital-card:hover {
+  transform: translateY(-2px);
+}
+
+.hospital-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.hospital-title-container {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.hospital-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 4px;
+}
+
+.verified-badge {
+  background-color: #E8F5E9;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #2E7D32;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.hospital-address {
+  font-size: 14px;
+  color: #6C757D;
+  margin-bottom: 12px;
+}
+
+.hospital-footer {
+  margin-top: 8px;
+}
+
+.hospital-info {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.hospital-distance,
+.hospital-eta {
+  font-size: 14px;
+  color: #6C757D;
+  font-weight: 500;
+}
+
+.hospital-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+
+.call-button {
+  background-color: #4CAF50;
+}
+
+.navigate-button {
+  background-color: #2196F3;
+}
+

@@ -1,0 +1,36 @@
+.splash-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+}
+
+.splash-content {
+  text-align: center;
+}
+
+.splash-logo {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.splash-title {
+  font-size: 48px;
+  font-weight: bold;
+  color: #e63946;
+  margin-bottom: 10px;
+}
+
+.splash-tagline {
+  font-size: 18px;
+  color: #6c757d;
+  margin-bottom: 40px;
+}
+
+.splash-loader {
+  font-size: 16px;
+  color: #6c757d;
+  margin-top: 20px;
+}
+
