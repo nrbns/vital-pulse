@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Linking, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRegion, getEmergencyNumber } from '../hooks/useRegion';
 

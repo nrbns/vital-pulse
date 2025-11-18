@@ -20,14 +20,24 @@
     "resendOTP": "Resend OTP"
   },
   "home": {
-    "welcome": "Welcome to Pulse",
+    "welcome": "Welcome",
     "emergencyButton": "EMERGENCY",
     "requestBlood": "Request Blood",
     "findHospital": "Find Hospital",
-    "upcomingEvents": "Upcoming Donation Camps"
+    "upcomingEvents": "Upcoming Donation Camps",
+    "nearbyNeeds": "Blood Needs Near You",
+    "nearestHospitals": "Nearest Hospitals",
+    "quickActions": "Quick Actions",
+    "donateNow": "Donate Now",
+    "myImpact": "My Impact",
+    "activeEmergencies": "Active Emergencies",
+    "noEmergencies": "No active emergencies nearby"
   },
   "emergency": {
     "title": "Emergency Services",
+    "button": "EMERGENCY",
+    "subtext": "Press and hold for immediate help",
+    "hint": "Opens emergency mode with nearest hospitals",
     "nearestHospitals": "Nearest Hospitals",
     "nearestBloodBanks": "Nearest Blood Banks",
     "distance": "{{distance}} km away",
@@ -35,7 +45,28 @@
     "call": "Call",
     "navigate": "Navigate",
     "openNow": "Open Now",
-    "closed": "Closed"
+    "closed": "Closed",
+    "callAmbulance": "Call Ambulance",
+    "shareLocation": "Share Location",
+    "findingHospitals": "Finding nearest hospitals...",
+    "broadcasting": "Broadcasting",
+    "broadcasted": "Broadcasting to nearby donors",
+    "shareMessage": "Need help at {{hospital}}. Location: {{lat}}, {{lng}}",
+    "locationRequired": "Location permission required for emergency mode",
+    "noHospitals": "No hospitals found nearby. Please call emergency services.",
+    "callEmergency": "Call Emergency",
+    "yourLocation": "Your Location"
+  },
+  "hospital": {
+    "verified": "Verified",
+    "open": "Open",
+    "closed": "Closed",
+    "call": "Call",
+    "navigate": "Navigate"
+  },
+  "offline": {
+    "banner": "Using cached data. Sync when online?",
+    "sync": "Sync"
   },
   "blood": {
     "requestTitle": "Request Blood",
@@ -85,7 +116,11 @@
     "error": "Error",
     "success": "Success",
     "retry": "Retry",
-    "ok": "OK"
+    "ok": "OK",
+    "close": "Close",
+    "seeAll": "See All",
+    "km": "km",
+    "min": "min"
   }
 }
 

@@ -10,7 +10,8 @@ import {
   Linking,
   Platform,
   Vibration,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MapView, { Marker } from 'react-native-maps';
@@ -278,15 +279,16 @@ export default function EmergencyScreen() {
                 showsVerticalScrollIndicator={false}
               >
                 {nearbyHospitals.map((hospital) => (
-                  <HospitalCard
-                    key={hospital.id}
-                    hospital={hospital}
-                    distance={hospital.distance_km || 0}
-                    isOpen={hospital.is_24x7 || hospital.is_open}
-                    regionCode={region?.code}
-                    onCall={() => handleCallHospital(hospital)}
-                    onNavigate={() => handleNavigateToHospital(hospital)}
-                  />
+                  <View key={hospital.id} style={styles.hospitalCardWrapper}>
+                    <HospitalCard
+                      hospital={hospital}
+                      distance={hospital.distance_km || 0}
+                      isOpen={hospital.is_24x7 || hospital.is_open}
+                      regionCode={region?.code}
+                      onCall={() => handleCallHospital(hospital)}
+                      onNavigate={() => handleNavigateToHospital(hospital)}
+                    />
+                  </View>
                 ))}
               </ScrollView>
             </View>
@@ -395,6 +397,9 @@ const styles = StyleSheet.create({
   },
   hospitalsList: {
     flex: 1,
+  },
+  hospitalCardWrapper: {
+    marginBottom: 12,
   },
   loadingContainer: {
     flex: 1,
