@@ -12,8 +12,30 @@ async function runMigrations() {
     const schemaPath = path.join(__dirname, 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf8');
     
-    // Execute schema
-    await query(schema);
+    // Split schema into individual statements and execute with error handling
+    const statements = schema
+      .split(';')
+      .map(s => s.trim())
+      .filter(s => s.length > 0 && !s.startsWith('--'));
+    
+    for (const statement of statements) {
+      try {
+        await query(statement);
+      } catch (error) {
+        // Ignore errors for existing indexes/tables (already exist)
+        if (error.code === '42P07' || error.code === '23505') {
+          // Relation already exists or duplicate key - skip
+          continue;
+        }
+        // For other errors, log and continue (might be index creation)
+        if (error.message && error.message.includes('already exists')) {
+          console.warn(`⚠️  Skipping (already exists): ${statement.substring(0, 50)}...`);
+          continue;
+        }
+        // Re-throw unexpected errors
+        throw error;
+      }
+    }
     
     console.log('✅ Database schema created');
     
@@ -21,7 +43,22 @@ async function runMigrations() {
     const triggersPath = path.join(__dirname, 'triggers.sql');
     if (fs.existsSync(triggersPath)) {
       const triggers = fs.readFileSync(triggersPath, 'utf8');
-      await query(triggers);
+      const triggerStatements = triggers
+        .split(';')
+        .map(s => s.trim())
+        .filter(s => s.length > 0 && !s.startsWith('--'));
+      
+      for (const statement of triggerStatements) {
+        try {
+          await query(statement);
+        } catch (error) {
+          if (error.code === '42P07' || error.message?.includes('already exists')) {
+            console.warn(`⚠️  Trigger already exists, skipping...`);
+            continue;
+          }
+          throw error;
+        }
+      }
       console.log('✅ Database triggers created');
     }
     

@@ -14,7 +14,8 @@ function getRedis() {
         const delay = Math.min(times * 50, 2000);
         return delay;
       },
-      maxRetriesPerRequest: 3
+      // BullMQ requires maxRetriesPerRequest to be null for blocking commands
+      maxRetriesPerRequest: null
     });
 
     redis.on('error', (err) => {
