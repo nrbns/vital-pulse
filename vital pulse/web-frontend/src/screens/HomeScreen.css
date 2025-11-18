@@ -191,13 +191,66 @@
 .action-icon {
   font-size: 36px;
   margin-bottom: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .action-title {
   font-size: 14px;
   font-weight: 600;
-  color: #FFFFFF;
   text-align: center;
+}
+
+/* Quick Actions specific colors matching image */
+.action-card:nth-child(1) {
+  /* Request Blood - light blue background, red blood drop */
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+}
+
+.action-card:nth-child(1) .action-icon {
+  font-size: 40px;
+}
+
+.action-card:nth-child(1) .action-title {
+  color: #FFFFFF;
+}
+
+.action-card:nth-child(2) {
+  /* Find Hospital - darker blue/teal background, purple hospital icon */
+  background: linear-gradient(135deg, #00695C 0%, #00897B 100%);
+}
+
+.action-card:nth-child(2) .action-icon {
+  font-size: 40px;
+}
+
+.action-card:nth-child(2) .action-title {
+  color: #FFFFFF;
+}
+
+.action-card:nth-child(3) {
+  /* Donate Now - light blue background, pink heart */
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+}
+
+.action-card:nth-child(3) .action-icon {
+  font-size: 40px;
+}
+
+.action-card:nth-child(3) .action-title {
+  color: #FFFFFF;
+}
+
+.action-card:nth-child(4) {
+  /* My Impact - darker blue/teal background, yellow star */
+  background: linear-gradient(135deg, #00695C 0%, #00897B 100%);
+}
+
+.action-card:nth-child(4) .action-icon {
+  font-size: 40px;
+}
+
+.action-card:nth-child(4) .action-title {
+  color: #FFFFFF;
 }
 
 .loading {

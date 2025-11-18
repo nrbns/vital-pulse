@@ -55,80 +55,46 @@ export default function HospitalCard({
   };
 
   return (
-    <TouchableOpacity
-      style={[styles.card, style]}
-      onPress={handleNavigate}
-      activeOpacity={0.7}
-      accessibilityLabel={`${hospital.name}, ${distance}km away, ${isOpen ? 'open' : 'closed'}`}
-      accessibilityRole="button"
-    >
+    <View style={[styles.card, style]}>
       <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.name} numberOfLines={2} allowFontScaling={true}>
-            {hospital.name}
-          </Text>
-          {hospital.verified && (
-            <View style={styles.verifiedBadge}>
-              <Text style={styles.verifiedText}>✓ {t('hospital.verified')}</Text>
-            </View>
-          )}
-        </View>
-        <View style={[styles.statusBadge, { backgroundColor: getStatusColor() }]}>
-          <Text style={styles.statusText}>
-            {isOpen ? '🟢' : '🔴'} {isOpen ? t('hospital.open') : t('hospital.closed')}
-          </Text>
-        </View>
-      </View>
-
-      {hospital.address && (
-        <Text style={styles.address} numberOfLines={1} allowFontScaling={true}>
-          📍 {hospital.address}
+        <Text style={styles.name} numberOfLines={2} allowFontScaling={true}>
+          {hospital.name}
         </Text>
-      )}
-
-      <View style={styles.footer}>
-        <View style={styles.info}>
-          <Text style={styles.distance} allowFontScaling={true}>
-            📏 {distance.toFixed(1)} {t('common.km') || 'km'} away
+        <View style={[styles.statusBadge, { backgroundColor: isOpen ? '#4CAF50' : '#F44336' }]}>
+          <View style={styles.statusDot} />
+          <Text style={styles.statusText}>
+            {isOpen ? t('hospital.open') || 'Open' : t('hospital.closed') || 'Closed'}
           </Text>
-          {hospital.eta && (
-            <Text style={styles.eta} allowFontScaling={true}>
-              ⏱️ {hospital.eta} {t('common.min') || 'min'}
-            </Text>
-          )}
-        </View>
-
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={[styles.actionButton, styles.callButton]}
-            onPress={handleCall}
-            accessibilityLabel={t('hospital.call')}
-          >
-            <Text style={styles.actionIcon}>📞</Text>
-            <Text style={styles.actionText}>{t('hospital.call') || 'Call'}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.actionButton, styles.navigateButton]}
-            onPress={handleNavigate}
-            accessibilityLabel={t('hospital.navigate')}
-          >
-            <Text style={styles.actionIcon}>🗺️</Text>
-            <Text style={styles.actionText}>{t('hospital.navigate') || 'Navigate'}</Text>
-          </TouchableOpacity>
         </View>
       </View>
 
-      {hospital.specialties && hospital.specialties.length > 0 && (
-        <View style={styles.specialties}>
-          {hospital.specialties.slice(0, 3).map((specialty, index) => (
-            <View key={index} style={styles.specialtyTag}>
-              <Text style={styles.specialtyText}>{specialty}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-    </TouchableOpacity>
+      <View style={styles.locationRow}>
+        <Text style={styles.locationIcon}>📍</Text>
+        <Text style={styles.distance} allowFontScaling={true}>
+          {distance.toFixed(1)} km away
+        </Text>
+      </View>
+
+      <View style={styles.actions}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.callButton]}
+          onPress={handleCall}
+          accessibilityLabel={t('hospital.call') || 'Call'}
+        >
+          <Text style={styles.callIcon}>📞</Text>
+          <Text style={styles.actionText}>{t('hospital.call') || 'Call'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.actionButton, styles.navigateButton]}
+          onPress={handleNavigate}
+          accessibilityLabel={t('hospital.navigate') || 'Navigate'}
+        >
+          <Text style={styles.mapIcon}>🗺️</Text>
+          <Text style={styles.actionText}>{t('hospital.navigate') || 'Navigate'}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
@@ -137,7 +103,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
+    marginRight: 12,
+    width: 280,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -145,69 +112,52 @@ const styles = StyleSheet.create({
     elevation: 3
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 8
-  },
-  titleContainer: {
-    flex: 1,
-    marginRight: 8
+    marginBottom: 12
   },
   name: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: '#212529',
-    marginBottom: 4
+    marginBottom: 8
   },
-  verifiedBadge: {
-    backgroundColor: '#E8F5E9',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderRadius: 12,
     alignSelf: 'flex-start'
   },
-  verifiedText: {
-    fontSize: 11,
-    color: '#2E7D32',
-    fontWeight: '600'
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12
+  statusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#FFFFFF',
+    marginRight: 6
   },
   statusText: {
     fontSize: 12,
     color: '#FFFFFF',
     fontWeight: '600'
   },
-  address: {
-    fontSize: 14,
-    color: '#6C757D',
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12
   },
-  footer: {
-    marginTop: 8
-  },
-  info: {
-    flexDirection: 'row',
-    marginBottom: 12,
-    gap: 16
+  locationIcon: {
+    fontSize: 14,
+    marginRight: 4
   },
   distance: {
     fontSize: 14,
     color: '#6C757D',
     fontWeight: '500'
   },
-  eta: {
-    fontSize: 14,
-    color: '#6C757D',
-    fontWeight: '500'
-  },
   actions: {
     flexDirection: 'row',
-    gap: 8
+    gap: 8,
+    marginTop: 4
   },
   actionButton: {
     flex: 1,
@@ -215,9 +165,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    gap: 6
+    paddingHorizontal: 8,
+    borderRadius: 8
   },
   callButton: {
     backgroundColor: '#4CAF50'
@@ -225,29 +174,18 @@ const styles = StyleSheet.create({
   navigateButton: {
     backgroundColor: '#2196F3'
   },
-  actionIcon: {
-    fontSize: 16
+  callIcon: {
+    fontSize: 16,
+    marginRight: 4
+  },
+  mapIcon: {
+    fontSize: 16,
+    marginRight: 4
   },
   actionText: {
     fontSize: 14,
     color: '#FFFFFF',
     fontWeight: '600'
-  },
-  specialties: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 12,
-    gap: 6
-  },
-  specialtyTag: {
-    backgroundColor: '#F5F5F5',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12
-  },
-  specialtyText: {
-    fontSize: 11,
-    color: '#6C757D'
   }
 });
 

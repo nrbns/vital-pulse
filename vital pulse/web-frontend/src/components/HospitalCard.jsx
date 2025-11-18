@@ -30,48 +30,36 @@ export default function HospitalCard({ hospital, distance, isOpen, onNavigate, o
   };
 
   return (
-    <div className="hospital-card" onClick={handleNavigate} role="button" tabIndex={0}>
+    <div className="hospital-card">
       <div className="hospital-header">
-        <div className="hospital-title-container">
-          <div className="hospital-name">{hospital.name}</div>
-          {hospital.verified && (
-            <div className="verified-badge">
-              ✓ Verified
-            </div>
-          )}
-        </div>
-        <div className="status-badge" style={{ backgroundColor: getStatusColor() }}>
-          {isOpen ? '🟢 Open' : '🔴 Closed'}
+        <div className="hospital-name">{hospital.name}</div>
+        <div className="status-badge" style={{ backgroundColor: isOpen ? '#4CAF50' : '#F44336' }}>
+          <span className="status-dot"></span>
+          <span>{isOpen ? 'Open' : 'Closed'}</span>
         </div>
       </div>
 
-      {hospital.address && (
-        <div className="hospital-address">📍 {hospital.address}</div>
-      )}
+      <div className="location-row">
+        <span className="location-icon">📍</span>
+        <span className="hospital-distance">{distance.toFixed(1)} km away</span>
+      </div>
 
-      <div className="hospital-footer">
-        <div className="hospital-info">
-          <div className="hospital-distance">📏 {distance.toFixed(1)} km away</div>
-          {hospital.eta && (
-            <div className="hospital-eta">⏱️ {hospital.eta} min</div>
-          )}
-        </div>
+      <div className="hospital-actions">
+        <button
+          className="action-button call-button"
+          onClick={(e) => { e.stopPropagation(); handleCall(); }}
+        >
+          <span className="call-icon">📞</span>
+          <span>Call</span>
+        </button>
 
-        <div className="hospital-actions">
-          <button
-            className="action-button call-button"
-            onClick={(e) => { e.stopPropagation(); handleCall(); }}
-          >
-            📞 Call
-          </button>
-
-          <button
-            className="action-button navigate-button"
-            onClick={(e) => { e.stopPropagation(); handleNavigate(); }}
-          >
-            🗺️ Navigate
-          </button>
-        </div>
+        <button
+          className="action-button navigate-button"
+          onClick={(e) => { e.stopPropagation(); handleNavigate(); }}
+        >
+          <span className="map-icon">🗺️</span>
+          <span>Navigate</span>
+        </button>
       </div>
     </div>
   );

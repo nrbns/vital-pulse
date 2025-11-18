@@ -2,72 +2,54 @@
   background-color: #FFFFFF;
   border-radius: 12px;
   padding: 16px;
-  margin-bottom: 12px;
+  margin-right: 12px;
+  width: 280px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
-  min-width: 280px;
-}
-
-.hospital-card:hover {
-  transform: translateY(-2px);
+  flex-shrink: 0;
 }
 
 .hospital-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.hospital-title-container {
-  flex: 1;
-  margin-right: 8px;
+  margin-bottom: 12px;
 }
 
 .hospital-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #212529;
-  margin-bottom: 4px;
-}
-
-.verified-badge {
-  background-color: #E8F5E9;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  color: #2E7D32;
-  font-weight: 600;
-  display: inline-block;
+  margin-bottom: 8px;
 }
 
 .status-badge {
-  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
   border-radius: 12px;
   font-size: 12px;
   color: #FFFFFF;
   font-weight: 600;
+  width: fit-content;
 }
 
-.hospital-address {
-  font-size: 14px;
-  color: #6C757D;
-  margin-bottom: 12px;
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  margin-right: 6px;
 }
 
-.hospital-footer {
-  margin-top: 8px;
-}
-
-.hospital-info {
+.location-row {
   display: flex;
-  gap: 16px;
+  align-items: center;
   margin-bottom: 12px;
 }
 
-.hospital-distance,
-.hospital-eta {
+.location-icon {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.hospital-distance {
   font-size: 14px;
   color: #6C757D;
   font-weight: 500;
@@ -76,11 +58,15 @@
 .hospital-actions {
   display: flex;
   gap: 8px;
+  margin-top: 4px;
 }
 
 .action-button {
   flex: 1;
-  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
   border-radius: 8px;
   border: none;
   font-size: 14px;
@@ -100,5 +86,11 @@
 
 .navigate-button {
   background-color: #2196F3;
+}
+
+.call-icon,
+.map-icon {
+  font-size: 16px;
+  margin-right: 4px;
 }
 

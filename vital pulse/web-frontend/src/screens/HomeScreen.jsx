@@ -165,7 +165,6 @@ export default function HomeScreen() {
             <button
               className="action-card"
               onClick={() => navigate('/blood-request')}
-              style={{ backgroundColor: colors.accent }}
             >
               <div className="action-icon">🩸</div>
               <div className="action-title">Request Blood</div>
@@ -174,7 +173,6 @@ export default function HomeScreen() {
             <button
               className="action-card"
               onClick={() => navigate('/emergency')}
-              style={{ backgroundColor: colors.trust }}
             >
               <div className="action-icon">🏥</div>
               <div className="action-title">Find Hospital</div>
@@ -183,7 +181,6 @@ export default function HomeScreen() {
             <button
               className="action-card"
               onClick={() => navigate('/donate')}
-              style={{ backgroundColor: colors.accent }}
             >
               <div className="action-icon">❤️</div>
               <div className="action-title">Donate Now</div>
@@ -192,7 +189,6 @@ export default function HomeScreen() {
             <button
               className="action-card"
               onClick={() => navigate('/profile')}
-              style={{ backgroundColor: colors.trust }}
             >
               <div className="action-icon">⭐</div>
               <div className="action-title">My Impact</div>

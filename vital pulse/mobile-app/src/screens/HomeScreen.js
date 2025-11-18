@@ -289,31 +289,31 @@ export default function HomeScreen() {
           </Text>
           <View style={styles.quickActions}>
             <TouchableOpacity 
-              style={[styles.actionCard, { backgroundColor: colors.accent }]}
+              style={[styles.actionCard, styles.requestBloodCard]}
               onPress={() => navigation.navigate('BloodRequest', { isNew: true })}
-              accessibilityLabel={t('home.requestBlood')}
+              accessibilityLabel={t('home.requestBlood') || 'Request Blood'}
             >
               <Text style={styles.actionIcon}>🩸</Text>
               <Text style={styles.actionTitle} allowFontScaling={true}>
-                {t('home.requestBlood')}
+                {t('home.requestBlood') || 'Request Blood'}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.actionCard, { backgroundColor: colors.trust }]}
+              style={[styles.actionCard, styles.findHospitalCard]}
               onPress={() => navigation.navigate('Emergency')}
-              accessibilityLabel={t('home.findHospital')}
+              accessibilityLabel={t('home.findHospital') || 'Find Hospital'}
             >
               <Text style={styles.actionIcon}>🏥</Text>
               <Text style={styles.actionTitle} allowFontScaling={true}>
-                {t('home.findHospital')}
+                {t('home.findHospital') || 'Find Hospital'}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.actionCard, { backgroundColor: colors.accent }]}
+              style={[styles.actionCard, styles.donateNowCard]}
               onPress={() => navigation.navigate('Donate')}
-              accessibilityLabel={t('home.donateNow')}
+              accessibilityLabel={t('home.donateNow') || 'Donate Now'}
             >
               <Text style={styles.actionIcon}>❤️</Text>
               <Text style={styles.actionTitle} allowFontScaling={true}>
@@ -322,9 +322,9 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.actionCard, { backgroundColor: colors.trust }]}
+              style={[styles.actionCard, styles.myImpactCard]}
               onPress={() => navigation.navigate('Profile')}
-              accessibilityLabel={t('home.myImpact')}
+              accessibilityLabel={t('home.myImpact') || 'My Impact'}
             >
               <Text style={styles.actionIcon}>⭐</Text>
               <Text style={styles.actionTitle} allowFontScaling={true}>
@@ -556,8 +556,20 @@ const styles = StyleSheet.create({
     minHeight: 120,
     justifyContent: 'center',
   },
+  requestBloodCard: {
+    backgroundColor: '#E3F2FD', // Light blue
+  },
+  findHospitalCard: {
+    backgroundColor: '#00695C', // Darker blue/teal
+  },
+  donateNowCard: {
+    backgroundColor: '#E3F2FD', // Light blue
+  },
+  myImpactCard: {
+    backgroundColor: '#00695C', // Darker blue/teal
+  },
   actionIcon: {
-    fontSize: 36,
+    fontSize: 40,
     marginBottom: 8,
   },
   actionTitle: {
@@ -565,6 +577,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
     textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.1)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   emergencyCard: {
     backgroundColor: '#FFFFFF',
