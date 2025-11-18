@@ -8,18 +8,27 @@ let socket = null;
  * Initialize WebSocket connection
  */
 export function initializeSocket(token) {
+  // If already connected with same token, return existing
   if (socket && socket.connected) {
     return socket;
   }
 
-  socket = io(API_BASE_URL.replace('/api/v1', ''), {
+  // Disconnect existing if token changed
+  if (socket) {
+    socket.disconnect();
+  }
+
+  const wsUrl = API_BASE_URL.replace('/api/v1', '').replace('http://', 'ws://').replace('https://', 'wss://');
+
+  socket = io(wsUrl, {
     auth: { token },
     transports: ['websocket', 'polling'],
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax: 5000,
     reconnectionAttempts: 5,
-    timeout: 20000
+    timeout: 20000,
+    autoConnect: true
   });
 
   socket.on('connect', () => {

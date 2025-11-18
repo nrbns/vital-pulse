@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { auth, tokens } from '../services/api';
+import { initializeSocket } from '../services/websocket';
+import { registerFCMToken } from '../services/pushNotifications';
 
 export default function LoginScreen({ navigation }) {
   const { t } = useTranslation();
@@ -8,6 +11,25 @@ export default function LoginScreen({ navigation }) {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState('phone'); // 'phone' or 'otp'
   const [loading, setLoading] = useState(false);
+  const [countryCode, setCountryCode] = useState('IN'); // Default to India
+
+  useEffect(() => {
+    // Check if already logged in
+    checkExistingAuth();
+  }, []);
+
+  const checkExistingAuth = async () => {
+    try {
+      const token = await tokens.get();
+      if (token) {
+        // Token exists, try to initialize socket and navigate
+        initializeSocket(token);
+        navigation.replace('Main');
+      }
+    } catch (error) {
+      // No existing auth
+    }
+  };
 
   const handleSendOTP = async () => {
     if (!phone || phone.length < 10) {
@@ -15,14 +37,19 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
+    // Format phone number (add country code if not present)
+    let formattedPhone = phone;
+    if (!phone.startsWith('+')) {
+      formattedPhone = countryCode === 'IN' ? `+91${phone}` : `+${phone}`;
+    }
+
     setLoading(true);
     try {
-      // TODO: Call API to send OTP
-      // await api.auth.requestOTP({ phone, countryCode: 'IN' });
+      await auth.requestOTP(formattedPhone, countryCode);
       setStep('otp');
-      Alert.alert(t('common.success'), t('auth.otpSent', { phone }));
+      Alert.alert(t('common.success'), t('auth.otpSent', { phone: formattedPhone }));
     } catch (error) {
-      Alert.alert(t('common.error'), error.message);
+      Alert.alert(t('common.error'), error.message || 'Failed to send OTP');
     } finally {
       setLoading(false);
     }
@@ -34,14 +61,28 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
+    let formattedPhone = phone;
+    if (!phone.startsWith('+')) {
+      formattedPhone = countryCode === 'IN' ? `+91${phone}` : `+${phone}`;
+    }
+
     setLoading(true);
     try {
-      // TODO: Call API to verify OTP
-      // const result = await api.auth.verifyOTP({ phone, otp });
-      // Store token and navigate to home
+      const result = await auth.verifyOTP(formattedPhone, otp);
+      
+      // Store tokens
+      await tokens.save(result.token, result.refreshToken);
+      
+      // Initialize WebSocket
+      initializeSocket(result.token);
+      
+      // Register FCM token
+      await registerFCMToken();
+      
+      // Navigate to home
       navigation.replace('Main');
     } catch (error) {
-      Alert.alert(t('common.error'), t('auth.invalidOTP'));
+      Alert.alert(t('common.error'), error.message || t('auth.invalidOTP'));
     } finally {
       setLoading(false);
     }
