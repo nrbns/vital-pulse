@@ -12,6 +12,26 @@ i18n
             emergency: 'Emergency',
             donate: 'Donate',
             profile: 'Profile'
+          },
+          home: {
+            welcome: 'Welcome',
+            nearbyNeeds: 'Blood Needs Near You',
+            nearestHospitals: 'Nearest Hospitals',
+            quickActions: 'Quick Actions',
+            donateNow: 'Donate Now',
+            myImpact: 'My Impact',
+            activeEmergencies: 'Active Emergencies',
+            noEmergencies: 'No active emergencies nearby'
+          },
+          emergency: {
+            title: 'Emergency',
+            button: 'EMERGENCY',
+            subtext: 'Press and hold for immediate help'
+          },
+          common: {
+            loading: 'Loading...',
+            error: 'Error',
+            seeAll: 'See All'
           }
         }
       }
@@ -24,4 +44,3 @@ i18n
   });
 
 export default i18n;
-
