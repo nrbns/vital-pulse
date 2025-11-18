@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, requireRole, optionalAuth } = require('../middleware/auth');
 const { query } = require('../database/connection');
 const { updateDonorPresence, removeDonorPresence, getDonorPresence, getOnlineDonorCount } = require('../services/presence');
-const { requireRole } = require('../middleware/auth');
 
 /**
  * Update donor availability/presence
