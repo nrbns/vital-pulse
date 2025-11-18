@@ -15,6 +15,7 @@ import './src/i18n';
 
 // Screens
 import SplashScreen from './src/screens/SplashScreen';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import EmergencyScreen from './src/screens/EmergencyScreen';
@@ -85,6 +86,9 @@ export default function App() {
 
   const initializeApp = async () => {
     try {
+      // Check onboarding status
+      const hasOnboarded = await AsyncStorage.getItem('has_onboarded');
+      
       // Check authentication status
       const token = await AsyncStorage.getItem('authToken');
       
@@ -136,7 +140,10 @@ export default function App() {
       >
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!isAuthenticated ? (
-            <Stack.Screen name="Login" component={LoginScreen} />
+            <>
+              <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+            </>
           ) : (
             <>
               <Stack.Screen name="Main" component={MainTabs} />

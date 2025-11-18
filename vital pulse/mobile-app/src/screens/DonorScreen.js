@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Geolocation from 'react-native-geolocation-service';
 import { donors } from '../services/api';
 import { initializeSocket, updateDonorPresence } from '../services/websocket';
 import { setupPushHandlers } from '../services/pushNotifications';
+import { useRegion, getRegionColors } from '../hooks/useRegion';
 
 export default function DonorScreen({ navigation }) {
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const colors = getRegionColors(region?.code || 'default');
+  
   const [isAvailable, setIsAvailable] = useState(false);
   const [location, setLocation] = useState(null);
   const [donorProfile, setDonorProfile] = useState(null);
@@ -228,61 +232,79 @@ export default function DonorScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{t('donor.title')}</Text>
-        {donorProfile.blood_group && (
-          <View style={styles.bloodGroupBadge}>
-            <Text style={styles.bloodGroupText}>{donorProfile.blood_group}</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.secondary }]}>
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View style={[styles.header, { backgroundColor: colors.primary }]}>
+          <View style={styles.headerContent}>
+            <Text style={styles.title} allowFontScaling={true}>{t('donor.title')}</Text>
+            {donorProfile.blood_group && (
+              <View style={[styles.bloodGroupBadge, { backgroundColor: colors.emergency }]}>
+                <Text style={styles.bloodGroupText}>{donorProfile.blood_group}</Text>
+              </View>
+            )}
           </View>
-        )}
-      </View>
-
-      {/* Availability Toggle */}
-      <View style={styles.card}>
-        <View style={styles.cardHeader}>
-          <View>
-            <Text style={styles.cardTitle}>Available for Emergencies</Text>
-            <Text style={styles.cardSubtitle}>
-              {isAvailable 
-                ? 'You will receive notifications for nearby blood requests'
-                : 'Toggle on to help save lives'
-              }
+          {region && (
+            <Text style={styles.regionIndicator} allowFontScaling={true}>
+              📍 {region.code}
             </Text>
-          </View>
-          <Switch
-            value={isAvailable}
-            onValueChange={handleToggle}
-            disabled={loading}
-            trackColor={{ false: '#dee2e6', true: '#28a745' }}
-            thumbColor={isAvailable ? '#ffffff' : '#f4f3f4'}
-          />
+          )}
         </View>
 
-        {isAvailable && location && (
-          <View style={styles.locationInfo}>
-            <Text style={styles.locationText}>
-              📍 Location: {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-            </Text>
-            <Text style={styles.locationNote}>
-              Your location is updated automatically when available
-            </Text>
+        {/* Availability Toggle */}
+        <View style={[styles.card, { backgroundColor: '#FFFFFF' }]}>
+          <View style={styles.cardHeader}>
+            <View style={styles.cardHeaderContent}>
+              <Text style={styles.cardTitle} allowFontScaling={true}>
+                {t('donor.availableTitle') || 'Available for Emergencies'}
+              </Text>
+              <Text style={styles.cardSubtitle} allowFontScaling={true}>
+                {isAvailable 
+                  ? t('donor.availableOn') || 'You will receive notifications for nearby blood requests'
+                  : t('donor.availableOff') || 'Toggle on to help save lives'
+                }
+              </Text>
+            </View>
+            <Switch
+              value={isAvailable}
+              onValueChange={handleToggle}
+              disabled={loading}
+              trackColor={{ false: '#dee2e6', true: '#28a745' }}
+              thumbColor={isAvailable ? '#ffffff' : '#f4f3f4'}
+              accessibilityLabel={t('donor.availableTitle') || 'Available for emergencies'}
+            />
           </View>
-        )}
 
-        {isAvailable && !location && (
-          <View style={styles.warningBox}>
-            <Text style={styles.warningText}>
-              ⚠️ Location permission required. Enable location services to receive emergency notifications.
+          {isAvailable && location && (
+            <View style={[styles.locationInfo, { backgroundColor: colors.accent }]}>
+              <Text style={styles.locationText} allowFontScaling={true}>
+                📍 {t('donor.location') || 'Location'}: {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+              </Text>
+              <Text style={styles.locationNote} allowFontScaling={true}>
+                {t('donor.locationNote') || 'Your location is updated automatically when available'}
+              </Text>
+            </View>
+          )}
+
+          {isAvailable && !location && (
+            <View style={styles.warningBox}>
+              <Text style={styles.warningText} allowFontScaling={true}>
+                ⚠️ {t('donor.locationRequired') || 'Location permission required. Enable location services to receive emergency notifications.'}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        {/* Eligibility Status */}
+        {eligibility && (
+          <View style={[styles.card, { backgroundColor: '#FFFFFF' }]}>
+            <Text style={styles.cardTitle} allowFontScaling={true}>
+              {t('donor.eligibilityTitle') || 'Donation Eligibility'}
             </Text>
-          </View>
-        )}
-      </View>
-
-      {/* Eligibility Status */}
-      {eligibility && (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Donation Eligibility</Text>
           <View style={styles.eligibilityRow}>
             <View style={[
               styles.statusBadge,
@@ -323,9 +345,11 @@ export default function DonorScreen({ navigation }) {
         </View>
       )}
 
-      {/* Donor Info */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Donor Information</Text>
+        {/* Donor Info */}
+        <View style={[styles.card, { backgroundColor: '#FFFFFF' }]}>
+          <Text style={styles.cardTitle} allowFontScaling={true}>
+            {t('donor.infoTitle') || 'Donor Information'}
+          </Text>
         
         {donorProfile.last_donation_date && (
           <View style={styles.infoRow}>
@@ -351,86 +375,117 @@ export default function DonorScreen({ navigation }) {
         )}
       </View>
 
-      {/* Actions */}
-      <View style={styles.actions}>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => navigation.navigate('DonationHistory')}
-        >
-          <Text style={styles.actionButtonText}>📋 {t('donor.donationHistory')}</Text>
-        </TouchableOpacity>
+        {/* Actions */}
+        <View style={styles.actions}>
+          <TouchableOpacity
+            style={[styles.actionButton, { backgroundColor: colors.accent }]}
+            onPress={() => navigation.navigate('DonationHistory')}
+            accessibilityLabel={t('donor.donationHistory')}
+          >
+            <Text style={styles.actionButtonText} allowFontScaling={true}>
+              📋 {t('donor.donationHistory')}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => navigation.navigate('Profile')}
-        >
-          <Text style={styles.actionButtonText}>⚙️ Update Profile</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity
+            style={[styles.actionButton, { backgroundColor: colors.trust }]}
+            onPress={() => navigation.navigate('Profile')}
+            accessibilityLabel={t('profile.title') || 'Update Profile'}
+          >
+            <Text style={styles.actionButtonText} allowFontScaling={true}>
+              ⚙️ {t('profile.title') || 'Update Profile'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
   loadingText: {
     marginTop: 16,
-    color: '#6c757d',
+    color: '#6C757D',
+    fontSize: 16,
   },
   header: {
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    marginBottom: 20,
+  },
+  headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#dee2e6',
+    marginBottom: 8,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#212529',
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    flex: 1,
+  },
+  regionIndicator: {
+    fontSize: 12,
+    color: '#FFFFFF',
+    opacity: 0.9,
+    marginTop: 4,
   },
   bloodGroupBadge: {
-    backgroundColor: '#e63946',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
+    marginLeft: 8,
   },
   bloodGroupText: {
-    color: '#ffffff',
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
   },
   card: {
-    backgroundColor: '#ffffff',
     padding: 20,
     marginTop: 12,
-    marginHorizontal: 12,
-    borderRadius: 12,
+    marginHorizontal: 16,
+    borderRadius: 16,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  cardHeaderContent: {
+    flex: 1,
+    marginRight: 16,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
     color: '#212529',
     marginBottom: 4,
   },
@@ -522,17 +577,22 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   actionButton: {
-    backgroundColor: '#ffffff',
-    padding: 16,
-    borderRadius: 8,
+    padding: 18,
+    borderRadius: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#dee2e6',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    minHeight: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   actionButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#212529',
+    color: '#FFFFFF',
     textAlign: 'center',
   },
 });

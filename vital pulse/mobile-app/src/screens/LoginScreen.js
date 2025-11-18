@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { auth, tokens } from '../services/api';
 import { initializeSocket } from '../services/websocket';
 import { registerFCMToken } from '../services/pushNotifications';
+import { useRegion, getRegionColors } from '../hooks/useRegion';
 
 export default function LoginScreen({ navigation }) {
   const { t } = useTranslation();
+  const { region } = useRegion();
+  const colors = getRegionColors(region?.code || 'default');
+  
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState('phone'); // 'phone' or 'otp'
   const [loading, setLoading] = useState(false);
-  const [countryCode, setCountryCode] = useState('IN'); // Default to India
+  const [countryCode, setCountryCode] = useState(region?.code || 'IN');
 
   useEffect(() => {
     // Check if already logged in
@@ -167,27 +171,38 @@ const styles = StyleSheet.create({
     color: '#212529',
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#dee2e6',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 18,
     marginBottom: 20,
     backgroundColor: '#ffffff',
+    minHeight: 56,
+    textAlign: 'center',
+    fontWeight: '600',
   },
   button: {
-    backgroundColor: '#e63946',
-    padding: 16,
-    borderRadius: 8,
+    padding: 18,
+    borderRadius: 16,
     alignItems: 'center',
+    marginTop: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
+    minHeight: 56,
+    justifyContent: 'center',
+    width: '100%',
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
   },
   linkButton: {
     marginTop: 16,

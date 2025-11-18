@@ -3,6 +3,33 @@
     "name": "Pulse",
     "tagline": "Global Emergency Health Platform"
   },
+  "onboarding": {
+    "welcome": {
+      "title": "Save Lives Nearby",
+      "description": "Connect with donors and hospitals in your area instantly.",
+      "example": "Find blood in {{region}}?"
+    },
+    "role": {
+      "title": "Your Role?",
+      "description": "Choose how you want to help in emergencies.",
+      "donor": "I Can Donate",
+      "donorDesc": "Help save lives by donating blood",
+      "requester": "I May Need Blood",
+      "requesterDesc": "Find donors when needed",
+      "both": "Both",
+      "bothDesc": "I can donate and may need blood"
+    },
+    "safety": {
+      "title": "Safety First",
+      "description": "We protect your privacy and verify all requests.",
+      "privacy": "Privacy Protected",
+      "privacyDesc": "Your phone number is never shown directly",
+      "verified": "Verified Requests",
+      "verifiedDesc": "All requests require hospital verification",
+      "instant": "Instant Alerts",
+      "instantDesc": "Get notified of emergencies near you"
+    }
+  },
   "tabs": {
     "home": "Home",
     "emergency": "Emergency",
@@ -55,7 +82,9 @@
     "locationRequired": "Location permission required for emergency mode",
     "noHospitals": "No hospitals found nearby. Please call emergency services.",
     "callEmergency": "Call Emergency",
-    "yourLocation": "Your Location"
+    "yourLocation": "Your Location",
+    "canHelp": "I Can Help",
+    "cannotHelp": "Cannot Help"
   },
   "hospital": {
     "verified": "Verified",
@@ -91,6 +120,14 @@
     "lastDonation": "Last Donation Date",
     "healthNotes": "Health Notes",
     "availability": "Availability",
+    "availableTitle": "Available for Emergencies",
+    "availableOn": "You will receive notifications for nearby blood requests",
+    "availableOff": "Toggle on to help save lives",
+    "location": "Location",
+    "locationNote": "Your location is updated automatically when available",
+    "locationRequired": "Location permission required. Enable location services to receive emergency notifications.",
+    "eligibilityTitle": "Donation Eligibility",
+    "infoTitle": "Donor Information",
     "eligible": "Eligible to Donate",
     "notEligible": "Not Eligible",
     "nextDonation": "Next Donation: {{date}}",
@@ -120,7 +157,11 @@
     "close": "Close",
     "seeAll": "See All",
     "km": "km",
-    "min": "min"
+    "min": "min",
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "start": "Get Started"
   }
 }
 

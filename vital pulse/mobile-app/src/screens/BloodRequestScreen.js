@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator, TextInput, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 import { emergencies } from '../services/api';
 import { initializeSocket, joinEmergencyRoom, onEmergencyEvent, respondToEmergency } from '../services/websocket';
+import { useRegion, getRegionColors } from '../hooks/useRegion';
+import EmergencyButton from '../components/EmergencyButton';
 
 export default function BloodRequestScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute();
   const { emergencyId, isNew } = route.params || {};
+  const { region } = useRegion();
+  const colors = getRegionColors(region?.code || 'default');
 
   const [emergency, setEmergency] = useState(null);
   const [responses, setResponses] = useState([]);
@@ -182,9 +186,18 @@ export default function BloodRequestScreen() {
   // Create new emergency form
   if (!emergencyId && isNew) {
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.form}>
-          <Text style={styles.title}>{t('blood.requestTitle')}</Text>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.secondary }]}>
+        <ScrollView 
+          style={styles.scrollView}
+          contentContainerStyle={styles.form}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={[styles.header, { backgroundColor: colors.emergency }]}>
+            <Text style={styles.title} allowFontScaling={true}>{t('blood.requestTitle')}</Text>
+            <Text style={styles.subtitle} allowFontScaling={true}>
+              {t('blood.requestSubtitle') || 'Fill in the details to request blood immediately'}
+            </Text>
+          </View>
 
           {/* Blood Group */}
           <Text style={styles.label}>{t('blood.bloodGroup')} *</Text>
@@ -294,7 +307,11 @@ export default function BloodRequestScreen() {
     };
 
     return (
-      <ScrollView style={styles.container}>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.secondary }]}>
+        <ScrollView 
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
         <View style={styles.emergencyHeader}>
           <Text style={styles.emergencyTitle}>Emergency Status</Text>
           <View style={[
@@ -393,53 +410,88 @@ export default function BloodRequestScreen() {
         {route.params?.isDonor && (
           <View style={styles.actionButtons}>
             <TouchableOpacity
-              style={[styles.actionButton, styles.acceptButton]}
+              style={[
+                styles.actionButton,
+                styles.acceptButton,
+                { backgroundColor: '#28a745' }
+              ]}
               onPress={() => handleRespond(true)}
+              accessibilityLabel={t('emergency.canHelp') || 'I Can Help'}
             >
-              <Text style={styles.actionButtonText}>✅ I Can Help</Text>
+              <Text style={styles.actionButtonText} allowFontScaling={true}>
+                ✅ {t('emergency.canHelp') || 'I Can Help'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.actionButton, styles.declineButton]}
+              style={[
+                styles.actionButton,
+                styles.declineButton,
+                { backgroundColor: '#dc3545' }
+              ]}
               onPress={() => handleRespond(false)}
+              accessibilityLabel={t('emergency.cannotHelp') || 'Cannot Help'}
             >
-              <Text style={styles.actionButtonText}>❌ Cannot Help</Text>
+              <Text style={styles.actionButtonText} allowFontScaling={true}>
+                ❌ {t('emergency.cannotHelp') || 'Cannot Help'}
+              </Text>
             </TouchableOpacity>
           </View>
         )}
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{t('blood.requestTitle')}</Text>
-    </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.secondary }]}>
+      <View style={styles.loadingContainer}>
+        <Text style={styles.title} allowFontScaling={true}>{t('blood.requestTitle')}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+  },
+  scrollView: {
+    flex: 1,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
   loadingText: {
     marginTop: 16,
-    color: '#6c757d',
+    color: '#6C757D',
+    fontSize: 16,
   },
   form: {
     padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#212529',
+  header: {
+    padding: 24,
+    borderRadius: 16,
     marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    opacity: 0.9,
+    lineHeight: 22,
   },
   label: {
     fontSize: 16,
@@ -451,10 +503,11 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#dee2e6',
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 12,
+    padding: 16,
     fontSize: 16,
     backgroundColor: '#ffffff',
+    minHeight: 48,
   },
   textArea: {
     height: 100,
@@ -466,13 +519,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   bloodGroupButton: {
-    padding: 12,
+    padding: 16,
     marginRight: 8,
     marginBottom: 8,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 12,
+    borderWidth: 2,
     borderColor: '#dee2e6',
     backgroundColor: '#ffffff',
+    minWidth: 70,
+    alignItems: 'center',
   },
   bloodGroupButtonSelected: {
     backgroundColor: '#e63946',
@@ -492,13 +547,14 @@ const styles = StyleSheet.create({
   },
   urgencyButton: {
     flex: 1,
-    padding: 12,
+    padding: 16,
     marginRight: 8,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 12,
+    borderWidth: 2,
     borderColor: '#dee2e6',
     backgroundColor: '#ffffff',
     alignItems: 'center',
+    minHeight: 48,
   },
   urgencyButtonSelected: {
     backgroundColor: '#e63946',
@@ -513,11 +569,17 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   submitButton: {
-    backgroundColor: '#e63946',
-    padding: 16,
-    borderRadius: 8,
+    padding: 20,
+    borderRadius: 16,
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 32,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
+    minHeight: 56,
   },
   submitButtonDisabled: {
     opacity: 0.6,
@@ -531,10 +593,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 24,
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#dee2e6',
+    borderRadius: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   emergencyTitle: {
     fontSize: 24,
