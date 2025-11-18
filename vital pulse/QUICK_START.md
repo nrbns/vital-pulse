@@ -48,12 +48,17 @@ npm run migrate
 ### 5. Start Backend Server
 
 ```bash
+# IMPORTANT: You must be in the backend directory first!
+cd backend
+
 # Development mode (with auto-reload)
 npm run dev
 
 # OR production mode
 npm start
 ```
+
+**Note:** Make sure you're in the `backend` directory! The root directory doesn't have a `package.json`.
 
 The backend will start on **http://localhost:3000**
 

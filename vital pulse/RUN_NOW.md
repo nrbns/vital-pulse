@@ -29,23 +29,25 @@
 
 1. **Start Docker Desktop** (if not running)
 
-2. **Start database services:**
+2. **Start database services** (from root directory):
    ```powershell
    docker-compose up -d postgres redis
    ```
 
 3. **Wait 15 seconds** for services to be ready
 
-4. **Run migrations:**
+4. **Run migrations** (must be in backend directory):
    ```powershell
    cd backend
    npm run migrate
    ```
 
-5. **Start backend server:**
+5. **Start backend server** (still in backend directory):
    ```powershell
    npm run dev
    ```
+   
+**⚠️ Important:** Always run `npm` commands from the `backend` or `mobile-app` directory, not from the root!
 
 ## Verify It's Running
 
