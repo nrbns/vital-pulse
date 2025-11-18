@@ -18,10 +18,27 @@ function App() {
   const { region, loading: regionLoading } = useRegion();
   const colors = getRegionColors(region?.code || 'default');
 
-  useEffect(() => {
-    // Check auth status
+  const checkAuth = () => {
     const token = localStorage.getItem('authToken');
     setIsAuthenticated(!!token);
+    return !!token;
+  };
+
+  useEffect(() => {
+    // Check auth status on mount
+    checkAuth();
+    
+    // Listen for storage changes (when login sets token)
+    const handleStorageChange = () => {
+      checkAuth();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check periodically in case token is set in same window
+    const interval = setInterval(() => {
+      checkAuth();
+    }, 500);
     
     // Wait for region detection
     if (!regionLoading && region) {
@@ -30,6 +47,11 @@ function App() {
       // Even if region is null, stop loading after timeout
       setTimeout(() => setLoading(false), 2000);
     }
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
   }, [regionLoading, region]);
 
   if (loading || regionLoading) {
@@ -43,7 +65,13 @@ function App() {
           {!isAuthenticated ? (
             <>
               <Route path="/onboarding" element={<OnboardingScreen />} />
-              <Route path="/login" element={<LoginScreen onLogin={() => setIsAuthenticated(true)} />} />
+              <Route path="/login" element={<LoginScreen onLogin={() => {
+                setIsAuthenticated(true);
+                // Force navigation after state update
+                setTimeout(() => {
+                  window.location.href = '/';
+                }, 100);
+              }} />} />
               <Route path="*" element={<Navigate to="/onboarding" replace />} />
             </>
           ) : (
