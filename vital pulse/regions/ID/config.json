@@ -1,0 +1,40 @@
+{
+  "countryCode": "ID",
+  "countryName": "Indonesia",
+  "active": true,
+  "defaultLanguage": "id",
+  "supportedLanguages": ["id", "en"],
+  "currency": "IDR",
+  "timezone": "Asia/Jakarta",
+  "dateFormat": "DD-MM-YYYY",
+  "phoneNumberFormat": {
+    "format": "+62 XXXXXXXXXX",
+    "countryCode": "62",
+    "minLength": 10,
+    "maxLength": 12
+  },
+  "emergencyServices": {
+    "ambulance": "118",
+    "police": "110",
+    "fire": "113",
+    "medicalEmergency": "118"
+  },
+  "maps": {
+    "provider": "google",
+    "apiKey": "",
+    "fallback": "openstreetmap"
+  },
+  "sms": {
+    "enabled": true,
+    "provider": "twilio",
+    "countryCode": "62"
+  },
+  "features": {
+    "bloodDonation": true,
+    "hospitalFinder": true,
+    "emergencyMode": true,
+    "donationCamps": true,
+    "communityFeatures": true
+  }
+}
+

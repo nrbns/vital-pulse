@@ -1,0 +1,11 @@
+{
+  "ambulance": "112",
+  "police": "112",
+  "fire": "112",
+  "medicalEmergency": "112",
+  "poisonControl": "",
+  "suicidePrevention": "",
+  "domesticViolence": "",
+  "custom": []
+}
+

@@ -1,0 +1,41 @@
+{
+  "countryCode": "IN",
+  "countryName": "India",
+  "active": true,
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en", "hi", "ta", "te", "kn", "mr", "gu", "bn", "ml", "or", "pa"],
+  "currency": "INR",
+  "timezone": "Asia/Kolkata",
+  "dateFormat": "DD-MM-YYYY",
+  "phoneNumberFormat": {
+    "format": "+91 XXXXXXXXXX",
+    "countryCode": "91",
+    "minLength": 10,
+    "maxLength": 10
+  },
+  "emergencyServices": {
+    "ambulance": "108",
+    "police": "100",
+    "fire": "101",
+    "medicalEmergency": "108",
+    "helpline": "102"
+  },
+  "maps": {
+    "provider": "google",
+    "apiKey": "",
+    "fallback": "openstreetmap"
+  },
+  "sms": {
+    "enabled": true,
+    "provider": "msg91",
+    "countryCode": "91"
+  },
+  "features": {
+    "bloodDonation": true,
+    "hospitalFinder": true,
+    "emergencyMode": true,
+    "donationCamps": true,
+    "communityFeatures": true
+  }
+}
+

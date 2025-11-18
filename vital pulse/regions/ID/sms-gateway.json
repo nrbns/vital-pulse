@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "provider": "twilio",
+  "config": {
+    "accountSid": "",
+    "authToken": "",
+    "fromNumber": ""
+  },
+  "templates": {
+    "otp": "Kode verifikasi Pulse Anda adalah: {code}. Berlaku selama 10 menit.",
+    "bloodRequest": "Dibutuhkan darah mendesak: {bloodGroup} di {hospital}. Hubungi {contact}",
+    "donationReminder": "Anda memenuhi syarat untuk mendonorkan darah lagi! Temukan kamp di dekat Anda di Pulse."
+  }
+}
+

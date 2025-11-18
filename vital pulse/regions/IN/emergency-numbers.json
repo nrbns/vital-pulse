@@ -1,0 +1,21 @@
+{
+  "ambulance": "108",
+  "police": "100",
+  "fire": "101",
+  "medicalEmergency": "108",
+  "helpline": "102",
+  "poisonControl": "",
+  "suicidePrevention": "044 2464 0050",
+  "domesticViolence": "1091",
+  "custom": [
+    {
+      "name": "Women Helpline",
+      "number": "1091"
+    },
+    {
+      "name": "Child Helpline",
+      "number": "1098"
+    }
+  ]
+}
+

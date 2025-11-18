@@ -1,0 +1,91 @@
+{
+  "app": {
+    "name": "Pulse",
+    "tagline": "Global Emergency Health Platform"
+  },
+  "tabs": {
+    "home": "Home",
+    "emergency": "Emergency",
+    "donate": "Donate",
+    "profile": "Profile"
+  },
+  "auth": {
+    "phoneNumber": "Phone Number",
+    "enterPhoneNumber": "Enter your phone number",
+    "sendOTP": "Send OTP",
+    "verifyOTP": "Verify OTP",
+    "enterOTP": "Enter OTP",
+    "otpSent": "OTP sent to {{phone}}",
+    "invalidOTP": "Invalid OTP",
+    "resendOTP": "Resend OTP"
+  },
+  "home": {
+    "welcome": "Welcome to Pulse",
+    "emergencyButton": "EMERGENCY",
+    "requestBlood": "Request Blood",
+    "findHospital": "Find Hospital",
+    "upcomingEvents": "Upcoming Donation Camps"
+  },
+  "emergency": {
+    "title": "Emergency Services",
+    "nearestHospitals": "Nearest Hospitals",
+    "nearestBloodBanks": "Nearest Blood Banks",
+    "distance": "{{distance}} km away",
+    "eta": "ETA: {{eta}}",
+    "call": "Call",
+    "navigate": "Navigate",
+    "openNow": "Open Now",
+    "closed": "Closed"
+  },
+  "blood": {
+    "requestTitle": "Request Blood",
+    "bloodGroup": "Blood Group",
+    "urgency": "Urgency",
+    "hospital": "Hospital",
+    "patientName": "Patient Name (Optional)",
+    "contact": "Contact Phone",
+    "notes": "Notes",
+    "submit": "Submit Request",
+    "selectBloodGroup": "Select Blood Group",
+    "selectUrgency": "Select Urgency Level",
+    "critical": "Critical",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "donor": {
+    "title": "Become a Donor",
+    "register": "Register as Donor",
+    "bloodGroup": "Blood Group",
+    "lastDonation": "Last Donation Date",
+    "healthNotes": "Health Notes",
+    "availability": "Availability",
+    "eligible": "Eligible to Donate",
+    "notEligible": "Not Eligible",
+    "nextDonation": "Next Donation: {{date}}",
+    "daysUntilEligible": "Eligible in {{days}} days",
+    "donationHistory": "Donation History"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "age": "Age",
+    "city": "City",
+    "gender": "Gender",
+    "bloodGroup": "Blood Group",
+    "language": "Language",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Retry",
+    "ok": "OK"
+  }
+}
+

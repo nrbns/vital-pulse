@@ -1,0 +1,13 @@
+{
+  "id": {
+    "name": "Indonesian",
+    "nativeName": "Bahasa Indonesia",
+    "supported": true
+  },
+  "en": {
+    "name": "English",
+    "nativeName": "English",
+    "supported": true
+  }
+}
+

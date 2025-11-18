@@ -1,0 +1,77 @@
+{
+  "donationIntervalDays": 90,
+  "minDonorAge": 18,
+  "maxDonorAge": 65,
+  "weightMinimumKg": 45,
+  "hemoglobinMinimum": {
+    "male": 12.5,
+    "female": 12.5
+  },
+  "restrictions": {
+    "pregnancy": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "tattoo": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "piercing": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "surgery": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "dentalWork": {
+      "allowed": false,
+      "waitPeriodDays": 24
+    },
+    "medications": {
+      "antibiotics": {
+        "allowed": false,
+        "waitPeriodDays": 7
+      },
+      "aspirin": {
+        "allowed": false,
+        "waitPeriodDays": 3
+      }
+    },
+    "healthConditions": {
+      "diabetes": {
+        "allowed": true,
+        "notes": "Must be well-controlled with medication"
+      },
+      "hypertension": {
+        "allowed": true,
+        "notes": "Must be under control with medication"
+      },
+      "hiv": {
+        "allowed": false,
+        "permanent": true
+      },
+      "hepatitis": {
+        "allowed": false,
+        "permanent": true
+      }
+    }
+  },
+  "bloodGroups": {
+    "O+": { "prevalence": 0.37 },
+    "O-": { "prevalence": 0.07 },
+    "A+": { "prevalence": 0.22 },
+    "A-": { "prevalence": 0.02 },
+    "B+": { "prevalence": 0.32 },
+    "B-": { "prevalence": 0.01 },
+    "AB+": { "prevalence": 0.07 },
+    "AB-": { "prevalence": 0.00 }
+  },
+  "rareGroups": ["AB-", "B-", "O-"],
+  "bombayPhenotype": {
+    "applicable": true,
+    "regions": ["Maharashtra", "Gujarat", "West Bengal"],
+    "notes": "Bombay phenotype (hh) is more common in certain regions of India"
+  }
+}
+

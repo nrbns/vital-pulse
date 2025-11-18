@@ -1,0 +1,58 @@
+{
+  "en": {
+    "name": "English",
+    "nativeName": "English",
+    "supported": true
+  },
+  "hi": {
+    "name": "Hindi",
+    "nativeName": "हिंदी",
+    "supported": true
+  },
+  "ta": {
+    "name": "Tamil",
+    "nativeName": "தமிழ்",
+    "supported": true
+  },
+  "te": {
+    "name": "Telugu",
+    "nativeName": "తెలుగు",
+    "supported": true
+  },
+  "kn": {
+    "name": "Kannada",
+    "nativeName": "ಕನ್ನಡ",
+    "supported": true
+  },
+  "mr": {
+    "name": "Marathi",
+    "nativeName": "मराठी",
+    "supported": true
+  },
+  "gu": {
+    "name": "Gujarati",
+    "nativeName": "ગુજરાતી",
+    "supported": true
+  },
+  "bn": {
+    "name": "Bengali",
+    "nativeName": "বাংলা",
+    "supported": true
+  },
+  "ml": {
+    "name": "Malayalam",
+    "nativeName": "മലയാളം",
+    "supported": true
+  },
+  "or": {
+    "name": "Odia",
+    "nativeName": "ଓଡ଼ିଆ",
+    "supported": true
+  },
+  "pa": {
+    "name": "Punjabi",
+    "nativeName": "ਪੰਜਾਬੀ",
+    "supported": true
+  }
+}
+

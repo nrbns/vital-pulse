@@ -1,0 +1,76 @@
+{
+  "donationIntervalDays": 56,
+  "minDonorAge": 18,
+  "maxDonorAge": 65,
+  "weightMinimumKg": 50,
+  "hemoglobinMinimum": {
+    "male": 13.0,
+    "female": 12.5
+  },
+  "restrictions": {
+    "pregnancy": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "tattoo": {
+      "allowed": false,
+      "waitPeriodMonths": 4
+    },
+    "piercing": {
+      "allowed": false,
+      "waitPeriodMonths": 4
+    },
+    "surgery": {
+      "allowed": false,
+      "waitPeriodMonths": 6
+    },
+    "dentalWork": {
+      "allowed": false,
+      "waitPeriodDays": 24
+    },
+    "medications": {
+      "antibiotics": {
+        "allowed": false,
+        "waitPeriodDays": 7
+      },
+      "aspirin": {
+        "allowed": false,
+        "waitPeriodDays": 3
+      }
+    },
+    "healthConditions": {
+      "diabetes": {
+        "allowed": true,
+        "notes": "Must be well-controlled"
+      },
+      "hypertension": {
+        "allowed": true,
+        "notes": "Must be under control with medication"
+      },
+      "hiv": {
+        "allowed": false,
+        "permanent": true
+      },
+      "hepatitis": {
+        "allowed": false,
+        "permanent": true
+      }
+    }
+  },
+  "bloodGroups": {
+    "O+": { "prevalence": 0.38 },
+    "O-": { "prevalence": 0.07 },
+    "A+": { "prevalence": 0.34 },
+    "A-": { "prevalence": 0.06 },
+    "B+": { "prevalence": 0.09 },
+    "B-": { "prevalence": 0.02 },
+    "AB+": { "prevalence": 0.03 },
+    "AB-": { "prevalence": 0.01 }
+  },
+  "rareGroups": ["AB-", "B-", "O-"],
+  "bombayPhenotype": {
+    "applicable": false,
+    "regions": []
+  }
+}
+

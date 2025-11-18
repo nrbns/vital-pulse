@@ -1,0 +1,40 @@
+{
+  "countryCode": "NG",
+  "countryName": "Nigeria",
+  "active": true,
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en", "yo", "ig", "ha"],
+  "currency": "NGN",
+  "timezone": "Africa/Lagos",
+  "dateFormat": "DD-MM-YYYY",
+  "phoneNumberFormat": {
+    "format": "+234 XXXXXXXXXX",
+    "countryCode": "234",
+    "minLength": 10,
+    "maxLength": 11
+  },
+  "emergencyServices": {
+    "ambulance": "112",
+    "police": "112",
+    "fire": "112",
+    "medicalEmergency": "112"
+  },
+  "maps": {
+    "provider": "google",
+    "apiKey": "",
+    "fallback": "openstreetmap"
+  },
+  "sms": {
+    "enabled": true,
+    "provider": "twilio",
+    "countryCode": "234"
+  },
+  "features": {
+    "bloodDonation": true,
+    "hospitalFinder": true,
+    "emergencyMode": true,
+    "donationCamps": true,
+    "communityFeatures": true
+  }
+}
+

@@ -1,0 +1,23 @@
+{
+  "en": {
+    "name": "English",
+    "nativeName": "English",
+    "supported": true
+  },
+  "yo": {
+    "name": "Yoruba",
+    "nativeName": "Yorùbá",
+    "supported": false
+  },
+  "ig": {
+    "name": "Igbo",
+    "nativeName": "Igbo",
+    "supported": false
+  },
+  "ha": {
+    "name": "Hausa",
+    "nativeName": "Hausa",
+    "supported": false
+  }
+}
+

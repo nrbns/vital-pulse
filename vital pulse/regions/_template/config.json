@@ -1,0 +1,40 @@
+{
+  "countryCode": "XX",
+  "countryName": "Country Name",
+  "active": true,
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en"],
+  "currency": "USD",
+  "timezone": "UTC",
+  "dateFormat": "YYYY-MM-DD",
+  "phoneNumberFormat": {
+    "format": "+XX XXXXXXXXXX",
+    "countryCode": "XX",
+    "minLength": 10,
+    "maxLength": 15
+  },
+  "emergencyServices": {
+    "ambulance": "112",
+    "police": "110",
+    "fire": "113",
+    "medicalEmergency": "112"
+  },
+  "maps": {
+    "provider": "google",
+    "apiKey": "",
+    "fallback": "openstreetmap"
+  },
+  "sms": {
+    "enabled": true,
+    "provider": "twilio",
+    "countryCode": "XX"
+  },
+  "features": {
+    "bloodDonation": true,
+    "hospitalFinder": true,
+    "emergencyMode": true,
+    "donationCamps": true,
+    "communityFeatures": false
+  }
+}
+

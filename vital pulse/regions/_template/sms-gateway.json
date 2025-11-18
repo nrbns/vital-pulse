@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "provider": "twilio",
+  "config": {
+    "accountSid": "",
+    "authToken": "",
+    "fromNumber": ""
+  },
+  "templates": {
+    "otp": "Your Pulse verification code is: {code}. Valid for 10 minutes.",
+    "bloodRequest": "Urgent blood needed: {bloodGroup} at {hospital}. Call {contact}",
+    "donationReminder": "You're eligible to donate blood again! Find a camp near you on Pulse."
+  }
+}
+
