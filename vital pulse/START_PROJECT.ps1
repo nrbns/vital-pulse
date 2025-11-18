@@ -25,35 +25,49 @@ Write-Host "✅ Node.js $nodeVersion`n" -ForegroundColor Green
 
 # Check backend .env
 Write-Host "3️⃣ Checking backend configuration..." -ForegroundColor Yellow
-Set-Location backend
-if (-not (Test-Path .env)) {
-    if (Test-Path .env.example) {
-        Copy-Item .env.example .env
-        Write-Host "✅ Created .env file from .env.example`n" -ForegroundColor Green
+try {
+    Set-Location backend -ErrorAction Stop
+    if (-not (Test-Path .env)) {
+        if (Test-Path .env.example) {
+            Copy-Item .env.example .env
+            Write-Host "✅ Created .env file from .env.example`n" -ForegroundColor Green
+        } else {
+            Write-Host "❌ .env.example not found!" -ForegroundColor Red
+            Set-Location ..
+            exit 1
+        }
     } else {
-        Write-Host "❌ .env.example not found!" -ForegroundColor Red
-        Set-Location ..
-        exit 1
+        Write-Host "✅ .env file exists`n" -ForegroundColor Green
     }
-} else {
-    Write-Host "✅ .env file exists`n" -ForegroundColor Green
+    Set-Location .. -ErrorAction Stop
+} catch {
+    Write-Host "❌ Error in step 3: $_" -ForegroundColor Red
+    Set-Location ..
+    exit 1
 }
-Set-Location ..
 
 # Install backend dependencies if needed
 Write-Host "4️⃣ Checking backend dependencies..." -ForegroundColor Yellow
-Set-Location backend
-if (-not (Test-Path node_modules)) {
-    Write-Host "Installing backend dependencies (this may take a minute)...`n" -ForegroundColor Yellow
-    npm install
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "❌ Failed to install backend dependencies!`n" -ForegroundColor Red
-        Set-Location ..
-        exit 1
+try {
+    Set-Location backend -ErrorAction Stop
+    if (-not (Test-Path node_modules)) {
+        Write-Host "Installing backend dependencies (this may take a minute)...`n" -ForegroundColor Yellow
+        npm install
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ Failed to install backend dependencies!`n" -ForegroundColor Red
+            Set-Location ..
+            exit 1
+        }
+        Write-Host "✅ Backend dependencies installed`n" -ForegroundColor Green
+    } else {
+        Write-Host "✅ Backend dependencies already installed`n" -ForegroundColor Green
     }
+    Set-Location .. -ErrorAction Stop
+} catch {
+    Write-Host "❌ Error in step 4: $_" -ForegroundColor Red
+    Set-Location ..
+    exit 1
 }
-Write-Host "✅ Backend dependencies installed`n" -ForegroundColor Green
-Set-Location ..
 
 # Start Docker services
 Write-Host "5️⃣ Starting Docker services (PostgreSQL + Redis)..." -ForegroundColor Yellow
@@ -76,18 +90,31 @@ Write-Host "✅ Redis: Running`n" -ForegroundColor Green
 
 # Run migrations
 Write-Host "6️⃣ Running database migrations..." -ForegroundColor Yellow
-Set-Location backend
-npm run migrate
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "⚠️  Migration failed, but continuing...`n" -ForegroundColor Yellow
+try {
+    Set-Location backend -ErrorAction Stop
+    npm run migrate
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "⚠️  Migration failed, but continuing...`n" -ForegroundColor Yellow
+    } else {
+        Write-Host "✅ Migrations completed`n" -ForegroundColor Green
+    }
+    Set-Location .. -ErrorAction Stop
+} catch {
+    Write-Host "⚠️  Error running migrations: $_ (continuing...)" -ForegroundColor Yellow
+    Set-Location ..
 }
-Set-Location ..
 
 # Start backend server
 Write-Host "`n7️⃣ Starting backend server..." -ForegroundColor Yellow
 Write-Host "Backend will be available at: http://localhost:3000`n" -ForegroundColor Cyan
 Write-Host "Press Ctrl+C to stop the server`n" -ForegroundColor Gray
 
-Set-Location backend
-npm run dev
+try {
+    Set-Location backend -ErrorAction Stop
+    npm run dev
+} catch {
+    Write-Host "❌ Error starting backend: $_" -ForegroundColor Red
+    Set-Location ..
+    exit 1
+}
 
