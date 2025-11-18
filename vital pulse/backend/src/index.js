@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
@@ -7,6 +8,9 @@ require('dotenv').config();
 
 const { connectDatabase } = require('./database/connection');
 const { loadRegions } = require('./utils/regionLoader');
+const { initializeSocketIO } = require('./ws');
+const { initializePGListener } = require('./database/pgListener');
+const { initializeNotificationQueue } = require('./services/notifications');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -20,6 +24,7 @@ const regionRoutes = require('./routes/regions');
 const safetyRoutes = require('./routes/safety');
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
 // Security middleware
@@ -59,6 +64,7 @@ app.get('/health', (req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/donors', donorRoutes);
+app.use('/api/v1/donors', require('./routes/donorPresence')); // Donor presence routes
 app.use('/api/v1/blood-requests', bloodRequestRoutes);
 app.use('/api/v1/emergency', emergencyRoutes);
 app.use('/api/v1/hospitals', hospitalRoutes);
@@ -101,10 +107,26 @@ async function startServer() {
     await loadRegions();
     console.log('✅ Region configurations loaded');
 
+    // Initialize Socket.IO (WebSocket server)
+    initializeSocketIO(server);
+    console.log('✅ WebSocket server initialized');
+
+    // Initialize PostgreSQL listener (for realtime triggers)
+    if (process.env.ENABLE_PG_LISTENER !== 'false') {
+      initializePGListener();
+    }
+
+    // Initialize notification queue (BullMQ)
+    if (process.env.REDIS_URL || process.env.REDIS_ENABLED !== 'false') {
+      initializeNotificationQueue();
+      console.log('✅ Notification queue initialized');
+    }
+
     // Start server
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`🚀 Pulse API server running on port ${PORT}`);
       console.log(`📝 API Documentation: http://localhost:${PORT}/health`);
+      console.log(`🔌 WebSocket available at ws://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
@@ -113,6 +135,15 @@ async function startServer() {
 }
 
 startServer();
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
+});
 
 module.exports = app;
 

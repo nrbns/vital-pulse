@@ -9,6 +9,7 @@ const {
   checkUserBan,
   maskPhoneNumber 
 } = require('../utils/safety');
+const { createEmergency } = require('../services/emergencyRealtime');
 
 /**
  * Create blood request
@@ -80,35 +81,30 @@ router.post('/', authenticateToken, async (req, res, next) => {
     const userResult = await query('SELECT country_code FROM users WHERE id = $1', [req.user.id]);
     const countryCode = userResult.rows[0]?.country_code || 'IN';
 
-    // Create blood request with mandatory fields
-    const result = await query(
-      `INSERT INTO blood_requests 
-       (user_id, blood_group, urgency, patient_name, hospital_name, hospital_address,
-        hospital_bed_number, hospital_ward, hospital_latitude, hospital_longitude, 
-        contact_phone, contact_phone_masked, notes, prescription_image_url, 
-        visible_radius_km, country_code)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-       RETURNING *`,
-      [req.user.id, bloodGroup, urgency, patientName, hospitalName, hospitalAddress,
-       hospitalBedNumber, hospitalWard, hospitalLatitude, hospitalLongitude, 
-       contactPhone, true, notes, prescriptionImageUrl, 30, countryCode]
-    );
+    // Create emergency with realtime fan-out
+    const emergency = await createEmergency({
+      userId: req.user.id,
+      bloodGroup,
+      urgency,
+      patientName,
+      hospitalName,
+      hospitalAddress,
+      hospitalBedNumber,
+      hospitalWard,
+      hospitalLatitude,
+      hospitalLongitude,
+      contactPhone,
+      notes,
+      prescriptionImageUrl,
+      countryCode
+    });
 
     // Increment rate limit
     await incrementRateLimit(req.user.id, 'request');
 
-    const request = result.rows[0];
-
-    // Match donors and blood banks (simplified - would use geospatial queries in production)
-    // This would typically trigger background jobs for notifications
-
     res.json({
       success: true,
-      request: {
-        ...request,
-        matchedDonors: 0, // Would be calculated
-        matchedBloodBanks: 0 // Would be calculated
-      }
+      request: emergency
     });
   } catch (error) {
     next(error);

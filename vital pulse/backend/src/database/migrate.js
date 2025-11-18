@@ -15,6 +15,16 @@ async function runMigrations() {
     // Execute schema
     await query(schema);
     
+    console.log('✅ Database schema created');
+    
+    // Read and execute triggers
+    const triggersPath = path.join(__dirname, 'triggers.sql');
+    if (fs.existsSync(triggersPath)) {
+      const triggers = fs.readFileSync(triggersPath, 'utf8');
+      await query(triggers);
+      console.log('✅ Database triggers created');
+    }
+    
     console.log('✅ Database migrations completed successfully');
     
     // Insert default countries from regions

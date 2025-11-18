@@ -34,7 +34,8 @@
     "i18next": "^23.7.6",
     "react-i18next": "^14.0.0",
     "react-native-localize": "^3.0.3",
-    "react-native-vector-icons": "^10.0.3"
+    "react-native-vector-icons": "^10.0.3",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",

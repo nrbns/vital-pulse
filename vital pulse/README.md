@@ -54,6 +54,19 @@ Think of it as: **"Blood + Emergency + Nearby Hospitals" in one open app.**
 
 ---
 
+## 🔴 Realtime Features
+
+Pulse includes a complete realtime infrastructure for instant emergency notifications:
+
+- **WebSocket Communication** - Socket.IO for bidirectional realtime updates
+- **Emergency Fan-Out** - Instant notifications to nearby donors (< 500ms)
+- **Donor Presence Tracking** - Redis geo-indexed realtime availability
+- **Live Status Updates** - PostgreSQL triggers + WebSocket for instant changes
+- **Push Notifications** - FCM with SMS fallback for critical emergencies
+- **Background Jobs** - BullMQ queue for reliable notification delivery
+
+See [docs/realtime-architecture.md](docs/realtime-architecture.md) for full technical details.
+
 ## 📱 Features Overview
 
 ### 🟢 MVP Features (First Public Release)
@@ -133,20 +146,34 @@ Think of it as: **"Blood + Emergency + Nearby Hospitals" in one open app.**
 
 ### Frontend (Mobile App)
 - **React Native** (Android + iOS from single codebase)
+- **Socket.IO Client** - WebSocket realtime communication
 - Push notifications: Firebase Cloud Messaging
 - Maps: Google Maps API / Mapbox / OpenStreetMap
 
 ### Backend (API)
-- **Node.js (Express/NestJS)** or **Python FastAPI**
-- REST or GraphQL APIs
+- **Node.js + Express**
+- **Socket.IO** - WebSocket server for realtime communication
+- REST APIs
 - Authentication: JWT
 - Role-based access control (user/donor/hospital/admin)
 
 ### Database
 - **PostgreSQL** (relational, safe)
   - Tables: users, donors, hospitals, blood_banks, requests, events, reports
-- **Redis** (optional)
-  - Caching nearby points, notification queues, rate limits
+  - **PostGIS** for geospatial queries
+  - **Triggers + LISTEN/NOTIFY** for realtime events
+- **Redis** (required for realtime)
+  - Presence tracking with geo-indexing
+  - Notification queues (BullMQ)
+  - Caching nearby points, rate limits
+
+### Realtime Infrastructure
+- **Socket.IO** - WebSocket bidirectional communication
+- **Redis GEO** - Fast nearby donor lookup (O(log(N) + M))
+- **PostgreSQL LISTEN/NOTIFY** - Database-driven realtime events
+- **BullMQ** - Reliable background job queue for notifications
+- **FCM** - Push notifications (Android/iOS)
+- **SMS** - Fallback for critical emergencies (Twilio/MSG91)
 
 ### Integrations
 - Maps: Google Maps API / OpenStreetMap + Nominatim

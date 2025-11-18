@@ -329,6 +329,24 @@ CREATE INDEX idx_masked_communications_to ON masked_communications(to_user_id, t
 CREATE INDEX idx_otp_phone ON otp_verifications(phone);
 CREATE INDEX idx_otp_expires ON otp_verifications(expires_at);
 
+-- User tokens (for FCM push notifications)
+CREATE TABLE IF NOT EXISTS user_tokens (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL,
+  token_type VARCHAR(20) NOT NULL, -- 'fcm', 'apns', etc.
+  token TEXT NOT NULL,
+  device_id VARCHAR(255),
+  device_type VARCHAR(50), -- 'android', 'ios', 'web'
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE(user_id, token_type, token)
+);
+
+CREATE INDEX idx_user_tokens_user_id ON user_tokens(user_id);
+CREATE INDEX idx_user_tokens_active ON user_tokens(user_id, is_active) WHERE is_active = true;
+
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
