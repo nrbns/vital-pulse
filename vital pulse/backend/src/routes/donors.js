@@ -205,5 +205,77 @@ router.get('/me/eligibility', authenticateToken, async (req, res, next) => {
   }
 });
 
+/**
+ * Get nearby donors (for admin/hospital use)
+ * GET /api/v1/donors/nearby?lat=&lng=&radius=&blood_group=
+ */
+router.get('/nearby', async (req, res, next) => {
+  try {
+    const { latitude, longitude, radius = 50, bloodGroup, countryCode } = req.query;
+
+    if (!latitude || !longitude) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Latitude and longitude are required'
+        }
+      });
+    }
+
+    const { getNearbyDonors } = require('../services/presence');
+    
+    // Try Redis first, fallback to DB
+    const nearbyDonors = await getNearbyDonors(
+      parseFloat(latitude),
+      parseFloat(longitude),
+      parseFloat(radius),
+      bloodGroup,
+      countryCode || 'IN'
+    );
+
+    // Get additional donor info from DB
+    const userIds = nearbyDonors.map(d => d.userId);
+    
+    if (userIds.length > 0) {
+      const donorInfo = await query(
+        `SELECT d.user_id, d.blood_group, d.is_eligible, d.last_donation_date,
+                u.name, u.city, u.country_code
+         FROM donors d
+         JOIN users u ON d.user_id = u.id
+         WHERE d.user_id = ANY($1::uuid[])
+         ORDER BY array_position($1::uuid[], d.user_id)`,
+        [userIds]
+      );
+
+      // Merge Redis presence with DB info
+      const donorsWithInfo = nearbyDonors.map(redisDonor => {
+        const dbInfo = donorInfo.rows.find(r => r.user_id === redisDonor.userId);
+        return {
+          ...redisDonor,
+          name: dbInfo?.name || null,
+          city: dbInfo?.city || null,
+          isEligible: dbInfo?.is_eligible || false,
+          lastDonationDate: dbInfo?.last_donation_date || null
+        };
+      });
+
+      res.json({
+        success: true,
+        donors: donorsWithInfo,
+        count: donorsWithInfo.length
+      });
+    } else {
+      res.json({
+        success: true,
+        donors: [],
+        count: 0
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
 

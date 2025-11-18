@@ -66,6 +66,7 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/donors', donorRoutes);
 app.use('/api/v1/donors', require('./routes/donorPresence')); // Donor presence routes
 app.use('/api/v1/blood-requests', bloodRequestRoutes);
+app.use('/api/v1/blood-requests', require('./routes/emergencyResponses')); // Emergency response routes
 app.use('/api/v1/emergency', emergencyRoutes);
 app.use('/api/v1/hospitals', hospitalRoutes);
 app.use('/api/v1/events', eventRoutes);
